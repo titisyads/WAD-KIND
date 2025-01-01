@@ -104,6 +104,6 @@ class UserSeeder extends Seeder
             'email' => 'dummy6@gmail.com',
             'password' => Hash::make('12345678'),
         ]);
-        user7->save();
+        $user7->save();
     }
 }
