@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LembagaController;
 use App\Http\Controllers\KegiatanVolunteerController;
+use App\Http\Controllers\VolunteerController;
+use App\Http\Controllers\BasicController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,4 +47,16 @@ Route::middleware('auth')->group(function() {
         Route::put('{id}', [KegiatanVolunteerController::class, 'update'])->name('kegiatan_volunteers.update');   
         Route::delete('{id}', [KegiatanVolunteerController::class, 'destroy'])->name('kegiatan_volunteers.destroy');  
     });
+
+    Route::middleware(['role:Admin|Pengurus Lembaga|Pengurus Kegiatan'])->prefix('volunteer')->group(function () {  
+        Route::get('/export', [VolunteerController::class, 'export'])->name('volunteers.export');
+        Route::get('/', [VolunteerController::class, 'index'])->name('volunteers.index');  
+        Route::get('/create', [VolunteerController::class, 'create'])->name('volunteers.create');      
+        Route::get('{id}', [VolunteerController::class, 'show'])->name('volunteers.show');      
+        Route::post('/', [VolunteerController::class, 'store'])->name('volunteers.store');      
+        Route::get('{id}/edit', [VolunteerController::class, 'edit'])->name('volunteers.edit');  
+        Route::put('{id}', [VolunteerController::class, 'update'])->name('volunteers.update');  
+        Route::delete('{id}', [VolunteerController::class, 'destroy'])->name('volunteers.destroy');  
+    });
+
 });
