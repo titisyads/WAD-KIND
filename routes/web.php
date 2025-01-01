@@ -5,6 +5,7 @@ use App\Http\Controllers\LembagaController;
 use App\Http\Controllers\KegiatanVolunteerController;
 use App\Http\Controllers\VolunteerController;
 use App\Http\Controllers\BasicController;
+use App\Http\Controllers\ReviewController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -58,5 +59,17 @@ Route::middleware('auth')->group(function() {
         Route::put('{id}', [VolunteerController::class, 'update'])->name('volunteers.update');  
         Route::delete('{id}', [VolunteerController::class, 'destroy'])->name('volunteers.destroy');  
     });
+
+    Route::middleware(['role:Admin|Pengurus Lembaga|Pengurus Kegiatan'])->prefix('review')->group(function () {  
+        Route::get('/export', [ReviewController::class, 'export'])->name('reviews.export');
+        Route::get('/', [ReviewController::class, 'index'])->name('reviews.index');  
+        Route::get('/create', [ReviewController::class, 'create'])->name('reviews.create');      
+        Route::get('{id}', [ReviewController::class, 'show'])->name('reviews.show');      
+        Route::post('/', [ReviewController::class, 'store'])->name('reviews.store');      
+        Route::get('{id}/edit', [ReviewController::class, 'edit'])->name('reviews.edit');  
+        Route::put('{id}', [ReviewController::class, 'update'])->name('reviews.update');  
+        Route::delete('{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');  
+    });
+
 
 });
