@@ -16,21 +16,31 @@ class KegiatanVolunteerController extends Controller
     /**  
      * Display a listing of the resource.  
      */  
-    public function index()  
-    {  
-        if (auth()->user()->hasRole('Admin')) {  
-            $kegiatanVolunteers = KegiatanVolunteer::all();  
-            $title = 'Semua Kegiatan Volunteer';  
-        } else if (auth()->user()->hasRole('Pengurus Lembaga')) {  
-            // Jika user adalah pengurus, tampilkan kegiatan hanya untuk lembaga yang dimiliki  
-            $lembagas = auth()->user()->lembagas; // Mendapatkan lembaga yang dimiliki oleh user  
-            $kegiatanVolunteers = KegiatanVolunteer::whereIn('id_lembaga', $lembagas->pluck('id'))->get();  
-            $title = 'Semua kegiatan untuk lembaga ' .  ($lembagas->first()->nama);  
+    public function index()
+    {
+        // Default values
+        $kegiatanVolunteers = collect(); // Empty collection as default
+        $title = 'Kegiatan Volunteer'; // Default title
+
+        // Check user roles and fetch data accordingly
+        if (auth()->user()->hasRole('Admin')) {
+            $kegiatanVolunteers = KegiatanVolunteer::all();
+            $title = 'Semua Kegiatan Volunteer';
+        } else if (auth()->user()->hasRole('Pengurus Lembaga')) {
+            // Fetch lembagas owned by the user
+            $lembagas = auth()->user()->lembagas;
+
+            // Ensure lembagas is not null or empty
+            if ($lembagas->isNotEmpty()) {
+                $kegiatanVolunteers = KegiatanVolunteer::whereIn('id_lembaga', $lembagas->pluck('id'))->get();
+                $title = 'Semua kegiatan untuk lembaga ' . ($lembagas->first()->nama ?? 'Anda');
+            }
         }
 
+        // Return view with default variables
+        return view('kegiatan_volunteers.index', compact('kegiatanVolunteers', 'title'));
+    }
 
-    return view('kegiatan_volunteers.index', compact('kegiatanVolunteers', 'title'));  
-    }  
 
 
     /**  
@@ -69,12 +79,9 @@ class KegiatanVolunteerController extends Controller
             'id_pengurus' => 'required|exists:users,id',
         ]);  
 
-
-        $imageExtension = $request->banner->extension(); // Ambil ekstensi file  
-        $imageName =  $validatedData['nama_kegiatan'] . '.' . $imageExtension; // Ganti nama file dengan nama lembaga  
+        $imageExtension = $request->banner->extension();
+        $imageName =  $validatedData['nama_kegiatan'] . '.' . $imageExtension;
         $request->banner->move(public_path('images'), $imageName);  
-       
-
 
         KegiatanVolunteer::create([  
             'id_lembaga' => $request->input('id_lembaga'),  
@@ -85,17 +92,16 @@ class KegiatanVolunteerController extends Controller
             'kategori' => $validatedData['kategori'],  
             'kuota' => $validatedData['kuota'],  
             'jenis' => $validatedData['jenis'],  
-            'harga' => $validatedData['harga'],  
+            'harga' => $validatedData['harga'] ?? 0,  
             'banner' => 'images/' . $imageName,  
             'id_pengurus' => $validatedData['id_pengurus']
         ]);  
 
-
         $user = User::findOrFail($validatedData['id_pengurus']);
         $user->syncRoles(Role::ROLE_PENGURUS_KEGIATAN);
 
-
-        return redirect()->route('kegiatan_volunteers.index')->with('success', 'Kegiatan Volunteer berhasil ditambahkan');  
+        return redirect()->route('kegiatan_volunteers.index')
+            ->with('success', 'Kegiatan Volunteer berhasil ditambahkan');  
     }  
 
 
@@ -225,4 +231,34 @@ class KegiatanVolunteerController extends Controller
    
         return Excel::download(new KegiatanVolunteerExport($kegiatanVolunteers), 'kegiatan_volunteers.xlsx');  
     }  
+
+
+    public function listActivities()
+    {
+        $title = 'Volunteer Activities'; // Define title first
+        
+        $kegiatanVolunteers = KegiatanVolunteer::where('tanggal', '>=', now())
+            ->orderBy('tanggal', 'asc')
+            ->get();
+        
+        return view('kegiatan_volunteers.list', [
+            'kegiatanVolunteers' => $kegiatanVolunteers,
+            'title' => $title
+        ]);
+    }
+
+    /**
+     * Display a listing of activities for public view.
+     */
+    public function list()
+    {
+        $kegiatanVolunteers = KegiatanVolunteer::with(['lembaga', 'user'])
+            ->where('tanggal', '>=', now())
+            ->orderBy('tanggal', 'asc')
+            ->get();
+        
+        $title = 'Daftar Kegiatan Volunteer';
+        
+        return view('kegiatan_volunteers.list', compact('kegiatanVolunteers', 'title'));
+    }
 }

@@ -129,8 +129,9 @@
                     @enderror  
                 </div>  
 
-
-                <button type="submit" class="btn btn-primary">Save</button>  
+                <div class="mt-3">
+                    <button type="submit" class="btn btn-primary">Save</button>  
+                </div>
             </form>  
         </div>  
     </div>  

@@ -50,7 +50,6 @@
                     <td>{{ $kegiatan->user->name }}</td>    
                     <td>  
                         <div class="d-flex">  
-                            <a href="{{ route('checkout.index', $kegiatan->id) }}" class="btn btn-sm btn-success mr-2">Checkout</a>
                             <a href="{{ route('kegiatan_volunteers.edit', $kegiatan->id) }}" class="btn btn-sm btn-primary mr-2">Edit</a>  
                             <!-- Trigger Modal -->  
                             <button type="button" class="btn btn-sm btn-info mr-2" data-toggle="modal" data-target="#kegiatanDetailModal-{{ $kegiatan->id }}">Detail</button>  
