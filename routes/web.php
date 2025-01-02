@@ -8,6 +8,7 @@ use App\Http\Controllers\VolunteerController;
 use App\Http\Controllers\BasicController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DokumentasiController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -97,6 +98,21 @@ Route::middleware('auth')->group(function() {
         Route::put('{id}', [ReviewController::class, 'update'])->name('reviews.update');  
         Route::delete('{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');  
     });
+
+    Route::middleware(['role:Admin|Pengurus Lembaga|Pengurus Kegiatan'])->prefix('dokumentasi')->group(function () {  
+        Route::get('/export', [DokumentasiController::class, 'export'])->name('dokumentasis.export');
+        Route::get('/', [DokumentasiController::class, 'index'])->name('dokumentasis.index');  
+        Route::get('/create', [DokumentasiController::class, 'create'])->name('dokumentasis.create');      
+        Route::get('{id}', [DokumentasiController::class, 'show'])->name('dokumentasis.show');      
+        Route::post('/', [DokumentasiController::class, 'store'])->name('dokumentasis.store');      
+        Route::get('{id}/edit', [DokumentasiController::class, 'edit'])->name('dokumentasis.edit');  
+        Route::put('{id}', [DokumentasiController::class, 'update'])->name('dokumentasis.update');  
+        Route::delete('{id}', [DokumentasiController::class, 'destroy'])->name('dokumentasis.destroy');  
+    });
+
+
+
+
 
 
 
