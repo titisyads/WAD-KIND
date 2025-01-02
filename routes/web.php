@@ -8,6 +8,7 @@ use App\Http\Controllers\VolunteerController;
 use App\Http\Controllers\BasicController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CheckoutController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,6 +19,9 @@ use App\Http\Controllers\DashboardController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::post('midtrans/notification', [CheckoutController::class, 'handleNotification']);
+
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -98,6 +102,11 @@ Route::middleware('auth')->group(function() {
         Route::delete('{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');  
     });
 
+    Route::middleware(['role:Admin|Pengurus Lembaga|Pengurus Kegiatan'])->prefix('checkout')->group(function () {
+        Route::get('/', [CheckoutController::class, 'index'])->name('checkouts.index');
+        Route::get('/{kegiatan}', [CheckoutController::class, 'showCheckoutForm'])->name('checkout.index');
+        Route::post('/', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
+    });
 
 
 });
