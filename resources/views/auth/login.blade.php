@@ -7,7 +7,6 @@
             <div class="text-center mb-4">
                 <img src="{{ asset('img/logo.png') }}" alt="KIND Logo" style="width: 150px;">
                 <p class="text-muted mt-2">Small Changes do change the future better.</p>
-                <h4 class="text-dark mt-4 fw-bold">Start with <span style="color: #8ecbf7">KIND</span></h4>
             </div>
 
             <div class="card border-0">
@@ -18,12 +17,12 @@
                         @csrf
 
                         <div class="mb-3">
-                            <label for="email" class="form-label">Username</label>
+                            <label for="email" class="form-label">Email</label>
                             <input type="email" 
                                    class="form-control @error('email') is-invalid @enderror" 
                                    name="email" 
                                    value="{{ old('email') }}" 
-                                   placeholder="Input your username"
+                                   placeholder="Input your email"
                                    required>
                             @error('email')
                                 <span class="invalid-feedback" role="alert">
@@ -63,6 +62,7 @@
                     </form>
                 </div>
             </div>
+            <h4 class="text-dark mt-4 fw-bold text-center">Start with <span style="color: #8ecbf7">KIND</span></h4>
         </div>
     </div>
 </div>
