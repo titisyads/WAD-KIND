@@ -236,7 +236,7 @@ class KegiatanVolunteerController extends Controller
 
     public function listActivities()
     {
-        $title = 'Volunteer Activities'; // Define title first
+        $title = 'Volunteer Activities'; 
         
         $kegiatanVolunteers = KegiatanVolunteer::where('tanggal', '>=', now())
             ->orderBy('tanggal', 'asc')
@@ -251,16 +251,26 @@ class KegiatanVolunteerController extends Controller
     /**
      * Display a listing of activities for public view.
      */
-    public function list()
+    public function list(Request $request)
     {
-        $kegiatanVolunteers = KegiatanVolunteer::with(['lembaga', 'user'])
-            ->where('tanggal', '>=', now())
-            ->orderBy('tanggal', 'asc')
-            ->get();
-        
-        $title = 'Daftar Kegiatan Volunteer';
-        
-        return view('kegiatan_volunteers.list', compact('kegiatanVolunteers', 'title'));
+        $query = KegiatanVolunteer::query();
+
+        // Filter by search term (nama_kegiatan)
+        if ($request->filled('search')) {
+            $query->where('nama_kegiatan', 'like', '%' . $request->search . '%');
+        }
+
+        // Filter by category
+        if ($request->filled('kategori')) {
+            $query->where('kategori', $request->kategori);
+        }
+
+        $kegiatanVolunteers = $query->get();
+
+        return view('kegiatan_volunteers.list', [
+            'kegiatanVolunteers' => $kegiatanVolunteers,
+            'title' => 'Kegiatan Volunteer'
+        ]);
     }
 
     public function register(Request $request)
