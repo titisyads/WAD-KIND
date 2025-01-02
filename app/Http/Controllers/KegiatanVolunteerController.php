@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;  
 use App\Models\KegiatanVolunteer;  
-use App\Models\Lembaga; // Pastikan Model Lembaga di import  
+use App\Models\Lembaga; 
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Volunteer;
-use App\Exports\KegiatanVolunteerExport; // Ganti nama export jika perlu  
+use App\Exports\KegiatanVolunteerExport; 
 use Maatwebsite\Excel\Facades\Excel;  
 
 
@@ -122,6 +122,8 @@ class KegiatanVolunteerController extends Controller
     public function edit(string $id)  
     {  
         $kegiatanVolunteer = KegiatanVolunteer::findOrFail($id);  
+        $users = User::role('Pengurus Lembaga')->get();
+
         if (auth()->user()->hasRole('Admin')) {  
             $lembagas = Lembaga::all();  
         } else if (auth()->user()->hasRole('Pengurus Lembaga')) {  
@@ -129,14 +131,14 @@ class KegiatanVolunteerController extends Controller
             // Ambil lembaga yang dimiliki oleh pengguna yang sedang login  
             $userLembagaIds = auth()->user()->lembagas->pluck('id')->toArray();  
 
-
             // Cek apakah kegiatan yang ingin diedit terkait dengan lembaga yang sama  
             if (!in_array($kegiatanVolunteer->id_lembaga, $userLembagaIds)) {  
-                return redirect()->route('kegiatan_volunteers.index')->with('error', 'Anda tidak memiliki izin untuk mengedit kegiatan ini.');  
+                return redirect()->route('kegiatan_volunteers.index')
+                    ->with('error', 'Anda tidak memiliki izin untuk mengedit kegiatan ini.');  
             }  
         }  
        
-        return view('kegiatan_volunteers.edit', compact('kegiatanVolunteer', 'lembagas'));  
+        return view('kegiatan_volunteers.edit', compact('kegiatanVolunteer', 'lembagas', 'users'));  
     }  
 
 
@@ -240,6 +242,7 @@ class KegiatanVolunteerController extends Controller
         
         $kegiatanVolunteers = KegiatanVolunteer::where('tanggal', '>=', now())
             ->orderBy('tanggal', 'asc')
+            ->take(6)  
             ->get();
         
         return view('kegiatan_volunteers.list', [
