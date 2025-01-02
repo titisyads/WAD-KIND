@@ -1,11 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LembagaController;
 use App\Http\Controllers\KegiatanVolunteerController;
 use App\Http\Controllers\VolunteerController;
 use App\Http\Controllers\BasicController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\DashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,13 +20,27 @@ use App\Http\Controllers\ReviewController;
 */
 
 Route::get('/', function () {
+    if (auth()->check()) {
+        return redirect()->route('home');
+    }
     return view('welcome');
 });
 
-Route::get('/home', 'HomeController@index')->name('home');
-
-
 Route::middleware('auth')->group(function() {
+    Route::get('/home', function() {
+        if (auth()->user()->hasRole('Admin')) {
+            return redirect()->action([HomeController::class, 'index']);
+        }
+        $counts = [
+            'volunteers' => \App\Models\Volunteer::where('status', 'approved')->count(),
+            'campaigns' => \App\Models\KegiatanVolunteer::count(),
+            'organizations' => \App\Models\Lembaga::count(),
+        ];
+        return view('layouts.user_app', compact('counts'));
+    })->name('home');
+
+    Route::get('/admin/home', [HomeController::class, 'index'])->middleware('role:Admin');
+
     Route::resource('basic', BasicController::class);
 
     Route::middleware(['role:Admin|Pengurus Lembaga'])->prefix('lembaga')->group(function () {  
