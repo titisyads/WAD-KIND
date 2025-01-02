@@ -31,7 +31,7 @@
                 <p class="text-muted">Organizations</p>
             </div>
         </div>
-        <a class="btn btn-lg mt-4" style="background-color: #8ecbf7; color: white">Join Us as a Volunteer</a>
+        <a class="btn btn-lg mt-4" style="background-color: #8ecbf7; color: white" href="{{ route('kegiatan_volunteers.list') }}">Join Us as a Volunteer</a>
     </div>
 
     <div class="container py-5">
@@ -100,21 +100,75 @@
 
     <div class="container py-5">
         <h3 class="fw-bold text-center mb-4">Explore Projects</h3>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <img src="{{ asset('img/project-image1.jpg') }}" alt="Project" class="img-fluid rounded shadow">
-                <h4 class="fw-bold mt-3">1000 Trees for Bandung</h4>
-                <p class="text-muted">Bandung Karya</p>
+        <div class="position-relative">
+            <div id="projectControls" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    @foreach($kegiatanVolunteers->chunk(3) as $index => $chunk)
+                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                            <div class="row g-4">
+                                @foreach($chunk as $kegiatan)
+                                    <div class="col-md-4">
+                                        <div class="card border-0 h-100">
+                                            <img src="{{ asset($kegiatan->banner) }}" alt="{{ $kegiatan->nama_kegiatan }}" 
+                                                 class="d-block w-100 rounded shadow">
+                                            <div class="card-body px-0">
+                                                <h4 class="fw-bold mt-3">{{ $kegiatan->nama_kegiatan }}</h4>
+                                                <p class="text-muted">{{ $kegiatan->lembaga->nama }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                <a class="carousel-control-prev" href="#projectControls" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#projectControls" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
-            <div class="col-md-4">
-                <img src="{{ asset('img/project-image2.jpg') }}" alt="Project" class="img-fluid rounded shadow">
-                <h4 class="fw-bold mt-3">No Hunger</h4>
-                <p class="text-muted">Anti Kelaparan INA</p>
-            </div>
-            <div class="col-md-4">
-                <img src="{{ asset('img/project-image3.jpg') }}" alt="Project" class="img-fluid rounded shadow">
-                <h4 class="fw-bold mt-3">Clean Up River Hero</h4>
-                <p class="text-muted">Hero Sungai Bandung</p>
+        </div>
+    </div>
+
+    <div class="container py-5">
+        <h3 class="fw-bold text-center mb-4">Partnered Organizations</h3>
+        <div class="position-relative">
+            <div id="organizationControls" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    @foreach($lembagas->chunk(3) as $index => $chunk)
+                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                            <div class="row g-4">
+                                @foreach($chunk as $lembaga)
+                                    <div class="col-md-4">
+                                        <div class="card border-0 h-100">
+                                            <div class="image-container rounded shadow">
+                                                <img src="{{ asset($lembaga->logo) }}" 
+                                                     alt="{{ $lembaga->nama }}" 
+                                                     class="d-block">
+                                            </div>
+                                            <div class="card-body px-0">
+                                                <h4 class="fw-bold mt-3">{{ $lembaga->nama }}</h4>
+                                                <p class="text-muted">{{ $lembaga->deskripsi }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                <a class="carousel-control-prev" href="#organizationControls" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#organizationControls" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
         </div>
     </div>
@@ -152,4 +206,34 @@
     .category-circle:hover + .category-text {
         color: #8ecbf7!important;
     }
+
+
+    .card {
+        position: relative;
+        width: 100%;
+    }
+
+    .card .image-container {
+        position: relative;
+        width: 100%;
+        padding-top: 100%; 
+        overflow: hidden;
+        background-color: #f8f9fa;
+    }
+
+    .card .image-container img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 80%; 
+        max-height: 80%; 
+        width: auto;
+        height: auto;
+        object-fit: contain; 
+    }
+
 </style> 
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script> 

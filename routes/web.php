@@ -27,12 +27,21 @@ Route::get('/', function () {
     if (auth()->check()) {
         return redirect()->route('home');
     }
+    
+    $kegiatanVolunteers = \App\Models\KegiatanVolunteer::where('tanggal', '>=', now())
+        ->orderBy('tanggal', 'asc')
+        ->take(6)
+        ->get();
+
+    $lembagas = \App\Models\Lembaga::all();
+        
     $counts = [
         'volunteers' => \App\Models\Volunteer::where('status', 'approved')->count(),
         'campaigns' => \App\Models\KegiatanVolunteer::count(),
         'organizations' => \App\Models\Lembaga::count(),
     ];
-    return view('layouts.user_app', compact('counts'));
+    
+    return view('layouts.user_app', compact('counts', 'kegiatanVolunteers', 'lembagas'));
 });
 
 
@@ -45,12 +54,21 @@ Route::middleware('auth')->group(function() {
         if (auth()->user()->hasAnyRole(['Admin', 'Pengurus Lembaga', 'Pengurus Kegiatan'])) {
             return redirect()->action([HomeController::class, 'index']);
         }
+        
+        $kegiatanVolunteers = \App\Models\KegiatanVolunteer::where('tanggal', '>=', now())
+            ->orderBy('tanggal', 'asc')
+            ->take(6)
+            ->get();
+
+        $lembagas = \App\Models\Lembaga::all();
+            
         $counts = [
             'volunteers' => \App\Models\Volunteer::where('status', 'approved')->count(),
             'campaigns' => \App\Models\KegiatanVolunteer::count(),
             'organizations' => \App\Models\Lembaga::count(),
         ];
-        return view('layouts.user_app', compact('counts'));
+        
+        return view('layouts.user_app', compact('counts', 'kegiatanVolunteers', 'lembagas'));
     })->name('home');
 
     Route::get('/admin/home', [HomeController::class, 'index'])->middleware('role:Admin|Pengurus Lembaga|Pengurus Kegiatan');

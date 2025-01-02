@@ -16,6 +16,13 @@ class DashboardController extends Controller
             'organizations' => Lembaga::count(),
         ];
 
-        return view('layouts.user_app', compact('counts'));
+        $kegiatanVolunteers = KegiatanVolunteer::where('tanggal', '>=', now())
+            ->orderBy('tanggal', 'asc')
+            ->take(6)
+            ->get();
+
+        $lembagas = Lembaga::all();
+
+        return view('layouts.user_app', compact('counts', 'kegiatanVolunteers', 'lembagas'));
     }
 }
