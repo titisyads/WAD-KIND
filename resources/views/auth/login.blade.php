@@ -7,7 +7,7 @@
             <div class="text-center mb-4">
                 <img src="{{ asset('img/logo.png') }}" alt="KIND Logo" style="width: 150px;">
                 <p class="text-muted mt-2">Small Changes do change the future better.</p>
-                <h4 class="text-dark mt-4 fw-bold">Start with <span class="text-primary">KIND</span></h4>
+                <h4 class="text-dark mt-4 fw-bold">Start with <span style="color: #8ecbf7">KIND</span></h4>
             </div>
 
             <div class="card border-0">
@@ -57,7 +57,7 @@
                             </a>
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100">
+                        <button type="submit" class="btn btn-primary w-100" color>
                             Sign In
                         </button>
                     </form>
@@ -79,6 +79,14 @@
     .btn {
         border-radius: 8px;
         padding: 10px 15px;
+    }
+    .btn-primary {
+        background-color: #8ecbf7;
+        border-color: #8ecbf7;
+    }
+    .btn-primary:hover {
+        background-color: #7ab8e4;
+        border-color: #7ab8e4;
     }
     .card {
         box-shadow: 0 0 20px rgba(0,0,0,0.05);

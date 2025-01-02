@@ -7,7 +7,7 @@
             <div class="text-center mb-5">
                 <img src="{{ asset('img/logo.png') }}"alt="KIND Logo" style="width: 180px; margin-bottom: 1.5rem;">
                 <p class="text-muted" style="font-size: 0.95rem; margin-bottom: 1.5rem;">Small Changes do change the future better.</p>
-                <h4 class="fw-bold" style="font-size: 1.5rem;">Start with <span class="text-primary">KIND</span></h4>
+                <h4 class="fw-bold" style="font-size: 1.5rem;">Start with <span style="color: #8ecbf7">KIND</span></h4>
             </div>
 
             <div class="card border-0 bg-white">
