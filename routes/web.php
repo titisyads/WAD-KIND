@@ -36,9 +36,9 @@ Route::get('/', function () {
 });
 
 
-Route::get('/listaktivitas', function () {
-    return view('layouts.listaktivitas');
-})->name('listaktivitas');
+Route::get('/list', function () {
+    return view('kegiatan_volunteers.list');
+})->name('list');
 
 Route::middleware('auth')->group(function() {
     Route::get('/home', function() {
@@ -108,6 +108,11 @@ Route::middleware('auth')->group(function() {
         Route::post('/', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
     });
 
+    Route::get('/volunteer-activities', [KegiatanVolunteerController::class, 'listActivities'])
+        ->name('volunteer.activities');
+
+    Route::get('/list', [KegiatanVolunteerController::class, 'list'])
+        ->name('kegiatan_volunteers.list');
 
 });
 

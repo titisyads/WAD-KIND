@@ -14,7 +14,7 @@
                             For Volunteer
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="volunteerDropdown">
-                            <li><a class="dropdown-item" href="{{ route('listaktivitas') }}">Volunteering Events</a></li>
+                            <li><a class="dropdown-item" href="{{ route('kegiatan_volunteers.list') }}">Volunteering Events</a></li>
                             <li><a class="dropdown-item" href="#">Organizations</a></li>
                         </ul>
                     </li>
