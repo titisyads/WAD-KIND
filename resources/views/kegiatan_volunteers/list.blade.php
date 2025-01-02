@@ -234,97 +234,126 @@
         @endif
 
         <div class="row g-3">
-            @forelse ($kegiatanVolunteers as $kegiatan)
-                <div class="col-md-4 col-lg-3">
-                    <div class="card h-100">
-                        @if($kegiatan->banner)
-                            <img src="{{ asset($kegiatan->banner) }}" class="card-img-top" alt="{{ $kegiatan->nama_kegiatan }}">
+    @forelse ($kegiatanVolunteers as $kegiatan)
+        <div class="col-md-4 col-lg-3">
+            <div class="card h-100">
+                @if($kegiatan->banner)
+                    <img src="{{ asset($kegiatan->banner) }}" class="card-img-top" alt="{{ $kegiatan->nama_kegiatan }}">
+                @endif
+                <div class="card-body">
+                    <h5 class="card-title mb-3">{{ $kegiatan->nama_kegiatan }}</h5>
+                    <p class="text-muted mb-3">{{ $kegiatan->lembaga->nama }}</p>
+
+                    <div class="mb-3">
+                        <span class="badge badge-kategori">{{ ucfirst($kegiatan->kategori) }}</span>
+                        <span class="badge badge-{{ $kegiatan->jenis === 'berbayar' ? 'berbayar' : 'gratis' }}">
+                            {{ ucfirst($kegiatan->jenis) }}
+                        </span>
+                    </div>
+
+                    <p class="card-text text-muted">{{ Str::limit($kegiatan->deskripsi, 100) }}</p>
+
+                    <ul class="info-list list-unstyled">
+                        <li class="info-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>{{ \Carbon\Carbon::parse($kegiatan->tanggal)->format('d M Y') }}</span>
+                        </li>
+                        <li class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>{{ $kegiatan->lokasi }}</span>
+                        </li>
+                        <li class="info-item">
+                            <i class="fas fa-users"></i>
+                            <span>Kuota: {{ $kegiatan->kuota }} orang</span>
+                        </li>
+                        @if($kegiatan->jenis === 'berbayar')
+                            <li class="info-item">
+                                <i class="fas fa-money-bill"></i>
+                                <span>Rp {{ number_format($kegiatan->harga, 0, ',', '.') }}</span>
+                            </li>
                         @endif
-                        <div class="card-body">
-                            <h5 class="card-title mb-3">{{ $kegiatan->nama_kegiatan }}</h5>
-                            <p class="text-muted mb-3">{{ $kegiatan->lembaga->nama }}</p>
-
-                            <div class="mb-3">
-                                <span class="badge badge-kategori">{{ ucfirst($kegiatan->kategori) }}</span>
-                                <span class="badge badge-{{ $kegiatan->jenis === 'berbayar' ? 'berbayar' : 'gratis' }}">
-                                    {{ ucfirst($kegiatan->jenis) }}
-                                </span>
-                            </div>
-
-                            <p class="card-text text-muted">{{ Str::limit($kegiatan->deskripsi, 100) }}</p>
-
-                            <ul class="info-list list-unstyled">
-                                <li class="info-item">
-                                    <i class="fas fa-calendar-alt"></i>
-                                    <span>{{ \Carbon\Carbon::parse($kegiatan->tanggal)->format('d M Y') }}</span>
-                                </li>
-                                <li class="info-item">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <span>{{ $kegiatan->lokasi }}</span>
-                                </li>
-                                <li class="info-item">
-                                    <i class="fas fa-users"></i>
-                                    <span>Kuota: {{ $kegiatan->kuota }} orang</span>
-                                </li>
-                                @if($kegiatan->jenis === 'berbayar')
-                                    <li class="info-item">
-                                        <i class="fas fa-money-bill"></i>
-                                        <span>Rp {{ number_format($kegiatan->harga, 0, ',', '.') }}</span>
-                                    </li>
-                                @endif
-                            </ul>
-                        </div>
-                        <div class="card-footer bg-white border-0 pt-0">
-                            <div class="d-flex justify-content-between align-items-center gap-2">
-                                <button type="button" class="btn btn-info flex-grow-1" data-bs-toggle="modal" data-bs-target="#detailModal{{ $kegiatan->id }}">
-                                    Detail
-                                </button>
-                                <button class="btn btn-primary flex-grow-1">
-                                    Daftar
-                                </button>
-                            </div>
-                        </div>
+                    </ul>
+                </div>
+                <div class="card-footer bg-white border-0 pt-0">
+                    <div class="d-flex justify-content-between align-items-center gap-2">
+                        <button type="button" class="btn btn-info flex-grow-1" data-bs-toggle="modal" data-bs-target="#detailModal{{ $kegiatan->id }}">
+                            Detail
+                        </button>
+                        <button class="btn btn-primary flex-grow-1" data-bs-toggle="modal" data-bs-target="#daftarModal{{ $kegiatan->id }}">
+                            Daftar
+                        </button>
                     </div>
                 </div>
-
-                <!-- Detail Modal -->
-                <div class="modal fade" id="detailModal{{ $kegiatan->id }}" tabindex="-1" aria-labelledby="detailModalLabel{{ $kegiatan->id }}" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="detailModalLabel{{ $kegiatan->id }}">{{ $kegiatan->nama_kegiatan }}</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <h5>Deskripsi</h5>
-                                <p>{{ $kegiatan->deskripsi }}</p>
-
-                                <h5>Lokasi dan Waktu</h5>
-                                <p><strong>Lokasi:</strong> {{ $kegiatan->lokasi }}</p>
-                                <p><strong>Tanggal:</strong> {{ \Carbon\Carbon::parse($kegiatan->tanggal)->format('d M Y') }}</p>
-
-                                <h5>Kontak</h5>
-                                <p>{{ $kegiatan->kontak }}</p>
-
-                                <h5>Biaya</h5>
-                                @if($kegiatan->jenis === 'berbayar')
-                                    <p>Rp {{ number_format($kegiatan->harga, 0, ',', '.') }}</p>
-                                @else
-                                    <p>Gratis</p>
-                                @endif
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                <button class="btn btn-primary">Daftar Sekarang</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @empty
-                <p class="text-center">Tidak ada kegiatan volunteer saat ini.</p>
-            @endforelse
+            </div>
         </div>
-    </div>
+
+        <!-- Detail Modal -->
+        <div class="modal fade" id="detailModal{{ $kegiatan->id }}" tabindex="-1" aria-labelledby="detailModalLabel{{ $kegiatan->id }}" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="detailModalLabel{{ $kegiatan->id }}">{{ $kegiatan->nama_kegiatan }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5>Deskripsi</h5>
+                        <p>{{ $kegiatan->deskripsi }}</p>
+
+                        <h5>Lokasi dan Waktu</h5>
+                        <p><strong>Lokasi:</strong> {{ $kegiatan->lokasi }}</p>
+                        <p><strong>Tanggal:</strong> {{ \Carbon\Carbon::parse($kegiatan->tanggal)->format('d M Y') }}</p>
+
+                        <h5>Kontak</h5>
+                        <p>{{ $kegiatan->kontak }}</p>
+
+                        <h5>Biaya</h5>
+                        @if($kegiatan->jenis === 'berbayar')
+                            <p>Rp {{ number_format($kegiatan->harga, 0, ',', '.') }}</p>
+                        @else
+                            <p>Gratis</p>
+                        @endif
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Daftar Modal -->
+        <div class="modal fade" id="daftarModal{{ $kegiatan->id }}" tabindex="-1" aria-labelledby="daftarModalLabel{{ $kegiatan->id }}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="daftarModalLabel{{ $kegiatan->id }}">Konfirmasi Pendaftaran</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Apakah Anda ingin mendaftar pada kegiatan <strong>{{ $kegiatan->nama_kegiatan }}</strong>?</p>
+                    </div>
+                    <div class="modal-footer">
+                        @if($kegiatan->jenis === 'gratis')
+                            <form action="{{ route('kegiatan.register') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="id_user" value="{{ auth()->user()->id }}">
+                                <input type="hidden" name="id_kegiatan" value="{{ $kegiatan->id }}">
+                                <button type="submit" class="btn btn-primary">Daftar</button>
+                            </form>
+                        @else
+                            <a href="{{ route('checkout.index', ['kegiatan' => $kegiatan->id]) }}" class="btn btn-primary">
+                                Lanjut ke Pembayaran
+                            </a>
+                        @endif
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @empty
+        <p class="text-center">Tidak ada kegiatan volunteer saat ini.</p>
+    @endforelse
+</div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

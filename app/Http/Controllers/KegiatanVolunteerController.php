@@ -7,6 +7,7 @@ use App\Models\KegiatanVolunteer;
 use App\Models\Lembaga; // Pastikan Model Lembaga di import  
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Volunteer;
 use App\Exports\KegiatanVolunteerExport; // Ganti nama export jika perlu  
 use Maatwebsite\Excel\Facades\Excel;  
 
@@ -261,4 +262,22 @@ class KegiatanVolunteerController extends Controller
         
         return view('kegiatan_volunteers.list', compact('kegiatanVolunteers', 'title'));
     }
+
+    public function register(Request $request)
+{
+    $validated = $request->validate([
+        'id_user' => 'required|exists:users,id',
+        'id_kegiatan' => 'required|exists:kegiatan_volunteers,id',
+    ]);
+
+    // Simpan data pendaftaran
+    Volunteer::Create([
+        'id_user' => $validated['id_user'],
+        'id_kegiatan' => $validated['id_kegiatan'],
+        'status' => 'pending'
+    ]);
+
+    return redirect()->back()->with('success', 'Pendaftaran berhasil!');
+}
+
 }

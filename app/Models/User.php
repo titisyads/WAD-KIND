@@ -46,4 +46,14 @@ class User extends Authenticatable
 
         return "{$this->name} {$this->last_name}";
     }
+
+    public function lembagas()  
+    {  
+        return $this->hasMany(Lembaga::class, 'pengurus_id');  
+    }  
+
+    public function kegiatanVolunteers()  
+    {  
+        return $this->hasMany(KegiatanVolunteer::class, 'id_pengurus');
+    }
 }

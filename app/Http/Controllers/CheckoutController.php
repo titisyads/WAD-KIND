@@ -13,10 +13,33 @@ use Illuminate\Support\Facades\Log;
 
 class CheckoutController extends Controller  
 {  
-    public function index()  
-    {  
-        // Logika untuk menampilkan semua checkout  
-    }  
+    public function index()
+    {
+        if (auth()->user()->hasRole('Admin')) {
+            // Admin bisa melihat semua checkout
+            $checkouts = Checkout::with('user', 'kegiatan')->get();
+            $title = 'Semua Checkout';
+        } elseif (auth()->user()->hasRole('Pengurus Lembaga')) {
+            // Pengurus Lembaga hanya bisa melihat checkout terkait lembaga yang mereka kelola
+            $lembagas = auth()->user()->lembagas;
+            $kegiatanIds = KegiatanVolunteer::whereIn('id_lembaga', $lembagas->pluck('id'))->pluck('id');
+    
+            // Ambil checkout yang terhubung dengan kegiatan lembaga
+            $checkouts = Checkout::whereIn('id_kegiatan', $kegiatanIds)->with('user', 'kegiatan')->get();
+            $title = 'Semua Checkout untuk Lembaga ' . ($lembagas->first()->nama);
+        } elseif (auth()->user()->hasRole('Pengurus Kegiatan')) {
+            $kegiatans = auth()->user()->kegiatanVolunteers;
+            // Pengurus Kegiatan hanya bisa melihat checkout untuk kegiatan yang mereka kelola
+            $kegiatanIds = KegiatanVolunteer::where('id_pengurus', auth()->id())->pluck('id');
+            // Ambil checkout yang terhubung dengan kegiatan mereka
+            $checkouts = Checkout::whereIn('id_kegiatan', $kegiatanIds)->with('user', 'kegiatan')->get();
+            $title = 'Checkout untuk Kegiatan ' . ($kegiatans->first()->nama_kegiatan);
+        }
+    
+        // Tampilkan view dengan data checkout
+        return view('checkouts.index', compact('checkouts', 'title'));
+    }
+
 
     public function showCheckoutForm(KegiatanVolunteer $kegiatan)  
     {  
@@ -97,7 +120,6 @@ class CheckoutController extends Controller
         // Ambil data notifikasi dari Midtrans  
         $payload = $request->getContent();  
         $notification = json_decode($payload);
-        Log::info('Midtrans Notification:', (array) $notification);
         $transaction_status = $notification->transaction_status;  
         $payment_type = $notification->payment_type;  
         $orderId = $notification->order_id;  

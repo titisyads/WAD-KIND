@@ -42,7 +42,7 @@ Route::get('/list', function () {
 
 Route::middleware('auth')->group(function() {
     Route::get('/home', function() {
-        if (auth()->user()->hasRole('Admin')) {
+        if (auth()->user()->hasAnyRole(['Admin', 'Pengurus Lembaga', 'Pengurus Kegiatan'])) {
             return redirect()->action([HomeController::class, 'index']);
         }
         $counts = [
@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function() {
         return view('layouts.user_app', compact('counts'));
     })->name('home');
 
-    Route::get('/admin/home', [HomeController::class, 'index'])->middleware('role:Admin');
+    Route::get('/admin/home', [HomeController::class, 'index'])->middleware('role:Admin|Pengurus Lembaga|Pengurus Kegiatan');
 
     Route::resource('basic', BasicController::class);
 
@@ -102,7 +102,7 @@ Route::middleware('auth')->group(function() {
         Route::delete('{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');  
     });
 
-    Route::middleware(['role:Admin|Pengurus Lembaga|Pengurus Kegiatan'])->prefix('checkout')->group(function () {
+    Route::prefix('checkout')->group(function () {
         Route::get('/', [CheckoutController::class, 'index'])->name('checkouts.index');
         Route::get('/{kegiatan}', [CheckoutController::class, 'showCheckoutForm'])->name('checkout.index');
         Route::post('/', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
@@ -113,6 +113,9 @@ Route::middleware('auth')->group(function() {
 
     Route::get('/list', [KegiatanVolunteerController::class, 'list'])
         ->name('kegiatan_volunteers.list');
+
+    Route::post('/kegiatan/register', [KegiatanVolunteerController::class, 'register'])->name('kegiatan.register');
+
 
 });
 
