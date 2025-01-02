@@ -15,8 +15,7 @@
                     height: 400px;">
         </div>
     </div>
-
-    <!-- Counters Section -->
+    
     <div class="container text-center py-5">
         <div class="row">
             <div class="col-md-4">
@@ -35,9 +34,6 @@
         <a class="btn btn-primary btn-lg mt-4">Join Us as a Volunteer</a>
     </div>
 
-    <!-- Rest of the dashboard content... -->
-    
-    <!-- Small Changes Section -->
     <div class="container py-5">
         <div class="row align-items-center">
             <div class="col-md-6">
@@ -51,50 +47,49 @@
         </div>
     </div>
 
-    <!-- Categories Section -->
+
     <div class="container text-center py-5">
         <h3 class="fw-bold">Categories</h3>
         <div class="row row-cols-2 row-cols-md-6 g-4 mt-4">
             <div class="col">
-                <div class="bg-light rounded-circle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; margin: 0 auto;">
-                    <span style="font-size: 2.5rem;">📚</span>
+                <div class="bg-light rounded-circle d-flex align-items-center justify-content-center category-circle">
+                    <span class="category-emoji">📚</span>
                 </div>
-                <p class="mt-2 text-muted">Education</p>
+                <p class="mt-2 text-muted category-text">Education</p>
             </div>
             <div class="col">
-                <div class="bg-light rounded-circle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; margin: 0 auto;">
-                    <span style="font-size: 2.5rem;">❤️</span>
+                <div class="bg-light rounded-circle d-flex align-items-center justify-content-center category-circle">
+                    <span class="category-emoji">❤️</span>
                 </div>
-                <p class="mt-2 text-muted">Health</p>
+                <p class="mt-2 text-muted category-text">Health</p>
             </div>
             <div class="col">
-                <div class="bg-light rounded-circle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; margin: 0 auto;">
-                    <span style="font-size: 2.5rem;">🌱</span>
+                <div class="bg-light rounded-circle d-flex align-items-center justify-content-center category-circle">
+                    <span class="category-emoji">🌱</span>
                 </div>
-                <p class="mt-2 text-muted">Environment</p>
+                <p class="mt-2 text-muted category-text">Environment</p>
             </div>
             <div class="col">
-                <div class="bg-light rounded-circle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; margin: 0 auto;">
-                    <span style="font-size: 2.5rem;">🤝</span>
+                <div class="bg-light rounded-circle d-flex align-items-center justify-content-center category-circle">
+                    <span class="category-emoji">🤝</span>
                 </div>
-                <p class="mt-2 text-muted">Social Service</p>
+                <p class="mt-2 text-muted category-text">Social Service</p>
             </div>
             <div class="col">
-                <div class="bg-light rounded-circle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; margin: 0 auto;">
-                    <span style="font-size: 2.5rem;">🏠</span>
+                <div class="bg-light rounded-circle d-flex align-items-center justify-content-center category-circle">
+                    <span class="category-emoji">🏠</span>
                 </div>
-                <p class="mt-2 text-muted">Community</p>
+                <p class="mt-2 text-muted category-text">Community</p>
             </div>
             <div class="col">
-                <div class="bg-light rounded-circle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; margin: 0 auto;">
-                    <span style="font-size: 2.5rem;">🐾</span>
+                <div class="bg-light rounded-circle d-flex align-items-center justify-content-center category-circle">
+                    <span class="category-emoji">🐾</span>
                 </div>
-                <p class="mt-2 text-muted">Animal</p>
+                <p class="mt-2 text-muted category-text">Animal</p>
             </div>
         </div>
     </div>
 
-    <!-- Trash Talk Section -->
     <div class="bg-primary text-white py-5">
         <div class="container text-center">
             <h3 class="fw-bold">Trash Talk:<br> Let's Clean Our Community!</h3>
@@ -102,7 +97,7 @@
         </div>
     </div>
 
-    <!-- Explore Projects Section -->
+
     <div class="container py-5">
         <h3 class="fw-bold text-center mb-4">Explore Projects</h3>
         <div class="row g-4">
@@ -125,3 +120,36 @@
     </div>
 
 @endsection 
+
+<style>
+    .category-circle {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .category-circle:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        background-color: #f8f9fa !important;
+    }
+
+    .category-emoji {
+        font-size: 2.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .category-circle:hover .category-emoji {
+        transform: scale(1.1);
+    }
+
+    .category-text {
+        transition: all 0.3s ease;
+    }
+
+    .category-circle:hover + .category-text {
+        color: #0d6efd !important;
+    }
+</style> 

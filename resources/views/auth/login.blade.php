@@ -3,64 +3,101 @@
 @section('main-content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-xl-10 col-lg-12 col-md-9">
-            <div class="card o-hidden border-0 shadow-lg my-5">
-                <div class="card-body p-0">
-                    <div class="row">
-                        <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
-                        <div class="col-lg-6">
-                            <div class="p-5">
-                                <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">{{ __('Login') }}</h1>
-                                </div>
+        <div class="col-md-4">
+            <div class="text-center mb-4">
+                <img src="{{ asset('img/logo.png') }}" alt="KIND Logo" style="width: 150px;">
+                <p class="text-muted mt-2">Small Changes do change the future better.</p>
+                <h4 class="text-dark mt-4 fw-bold">Start with <span class="text-primary">KIND</span></h4>
+            </div>
 
-                                @if ($errors->any())
-                                    <div class="alert alert-danger border-left-danger" role="alert">
-                                        <ul class="pl-4 my-2">
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @endif
+            <div class="card border-0">
+                <div class="card-body">
+                    <h4 class="text-center mb-4">Sign In</h4>
 
-                                <form method="POST" action="{{ route('login') }}" class="user">
-                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
 
-                                    <div class="form-group">
-                                        <input type="email" class="form-control form-control-user" name="email" placeholder="{{ __('E-Mail Address') }}" value="{{ old('email') }}" required autofocus>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <input type="password" class="form-control form-control-user" name="password" placeholder="{{ __('Password') }}" required>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="custom-control custom-checkbox small">
-                                            <input type="checkbox" class="custom-control-input" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                                            <label class="custom-control-label" for="remember">{{ __('Remember Me') }}</label>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-primary btn-user btn-block">
-                                            {{ __('Login') }}
-                                        </button>
-                                    </div>
-
-                                    <hr>
-
-                                @if (Route::has('register'))
-                                    <div class="text-center">
-                                        <a class="small" href="{{ route('register') }}">{{ __('Create an Account!') }}</a>
-                                    </div>
-                                @endif
-                            </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Username</label>
+                            <input type="email" 
+                                   class="form-control @error('email') is-invalid @enderror" 
+                                   name="email" 
+                                   value="{{ old('email') }}" 
+                                   placeholder="Input your username"
+                                   required>
+                            @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
-                    </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <div class="input-group">
+                                <input type="password" 
+                                       class="form-control @error('password') is-invalid @enderror" 
+                                       name="password" 
+                                       placeholder="Input your password"
+                                       required>
+                                <button class="btn btn-outline-secondary" type="button" onclick="togglePassword(this)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            @error('password')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+
+                        <div class="text-end mb-3">
+                            <a href="{{ route('password.request') }}" class="text-decoration-none text-muted">
+                                Forgot Password?
+                            </a>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">
+                            Sign In
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@push('styles')
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+    .form-control {
+        border-radius: 8px;
+        padding: 10px 15px;
+    }
+    .btn {
+        border-radius: 8px;
+        padding: 10px 15px;
+    }
+    .card {
+        box-shadow: 0 0 20px rgba(0,0,0,0.05);
+        border-radius: 12px;
+    }
+</style>
+@endpush
+
+@push('scripts')
+<script>
+function togglePassword(button) {
+    const input = button.previousElementSibling;
+    const type = input.type === 'password' ? 'text' : 'password';
+    input.type = type;
+    
+    const icon = button.querySelector('i');
+    icon.classList.toggle('fa-eye');
+    icon.classList.toggle('fa-eye-slash');
+}
+</script>
+@endpush
 @endsection

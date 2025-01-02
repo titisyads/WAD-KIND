@@ -23,7 +23,12 @@ Route::get('/', function () {
     if (auth()->check()) {
         return redirect()->route('home');
     }
-    return view('welcome');
+    $counts = [
+        'volunteers' => \App\Models\Volunteer::where('status', 'approved')->count(),
+        'campaigns' => \App\Models\KegiatanVolunteer::count(),
+        'organizations' => \App\Models\Lembaga::count(),
+    ];
+    return view('layouts.user_app', compact('counts'));
 });
 
 Route::middleware('auth')->group(function() {
