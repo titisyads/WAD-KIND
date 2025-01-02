@@ -31,6 +31,11 @@ Route::get('/', function () {
     return view('layouts.user_app', compact('counts'));
 });
 
+
+Route::get('/listaktivitas', function () {
+    return view('layouts.listaktivitas');
+})->name('listaktivitas');
+
 Route::middleware('auth')->group(function() {
     Route::get('/home', function() {
         if (auth()->user()->hasRole('Admin')) {
@@ -47,6 +52,7 @@ Route::middleware('auth')->group(function() {
     Route::get('/admin/home', [HomeController::class, 'index'])->middleware('role:Admin');
 
     Route::resource('basic', BasicController::class);
+
 
     Route::middleware(['role:Admin|Pengurus Lembaga'])->prefix('lembaga')->group(function () {  
         Route::get('/export', [LembagaController::class, 'export'])->name('lembagas.export');
@@ -93,4 +99,6 @@ Route::middleware('auth')->group(function() {
     });
 
 
+
 });
+
