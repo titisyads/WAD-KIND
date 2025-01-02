@@ -105,6 +105,18 @@
                             @enderror
                         </div>
 
+                        <div class="mb-4">
+                            <label class="form-label text-muted mb-1">Confirm Password</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control form-control-lg" 
+                                       name="password_confirmation" required placeholder="Confirm your password"
+                                       style="font-size: 0.95rem;">
+                                <button class="btn btn-outline-secondary" type="button" onclick="togglePassword(this)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
                         <button type="submit" class="btn btn-primary w-100 py-3 fw-bold mb-3">
                             Register
                         </button>
