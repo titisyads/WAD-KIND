@@ -36,5 +36,8 @@ class KegiatanVolunteer extends Model
     {  
         return $this->belongsTo(User::class, 'id_pengurus');  
     }  
-   
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'id_kegiatan');
+    }
 }

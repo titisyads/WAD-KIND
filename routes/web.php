@@ -153,5 +153,22 @@ Route::middleware('auth')->group(function() {
         return view('volunteers.list', compact('volunteers'));
     })->name('volunteers.status');
 
+    Route::get('/reviews', function () {
+        $reviews = \App\Models\Review::with(['user', 'kegiatan'])
+            ->orderBy('tanggal', 'desc')
+            ->get();
+            
+        $activities = \App\Models\Volunteer::where('id_user', auth()->id())
+            ->where('status', 'approved')
+            ->with('kegiatan')
+            ->get()
+            ->pluck('kegiatan');
+            
+        return view('reviews.list', compact('reviews', 'activities'));
+    })->name('reviews.list');
+
+    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+
 });
+
 

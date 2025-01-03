@@ -42,7 +42,13 @@ class ReviewController extends Controller
             // Ambil review yang terhubung dengan kegiatan mereka  
             $reviews = Review::whereIn('id_kegiatan', $kegiatanIds)->with('user')->get();  
             $title = 'Review untuk Kegiatan ' . ($kegiatans->first()->nama_kegiatan);
-        }  
+        }  elseif (auth()->user()->hasRole('Member')) {  
+            // Member hanya bisa melihat daftar review  
+            $reviews = Review::with('user', 'kegiatan')->get();  
+            $title = 'Daftar Review';  
+            $activities = KegiatanVolunteer::all(); 
+            return view('reviews.list', compact('reviews', 'title', 'activities')); 
+        }
 
 
         return view('reviews.index', compact('reviews', 'title'));  
