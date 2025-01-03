@@ -36,7 +36,7 @@
                                 <figure class="img-profile rounded-circle avatar font-weight-bold mb-0" data-initial="{{ Auth::user()->name[0] }}"></figure>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">Profile</a>
+                                <a class="dropdown-item" href="{{ route('volunteers.status') }}">My Activities</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
