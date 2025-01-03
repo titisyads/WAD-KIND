@@ -352,8 +352,8 @@
                                     <p><strong>Lokasi:</strong> {{ $kegiatan->lokasi }}</p>
                                     <p><strong>Tanggal:</strong> {{ \Carbon\Carbon::parse($kegiatan->tanggal)->format('d M Y') }}</p>
 
-                                    <h5>Kontak</h5>
-                                    <p>{{ $kegiatan->kontak }}</p>
+                                    <!-- <h5>Kontak</h5>
+                                    <p>{{ $kegiatan->kontak }}</p> -->
 
                                     <h5>Biaya</h5>
                                     @if($kegiatan->jenis === 'berbayar')
