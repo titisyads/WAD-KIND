@@ -127,6 +127,7 @@ Route::middleware('auth')->group(function() {
         Route::get('/export', [DokumentasiController::class, 'export'])->name('dokumentasis.export');
         Route::get('/', [DokumentasiController::class, 'index'])->name('dokumentasis.index');  
         Route::get('/create', [DokumentasiController::class, 'create'])->name('dokumentasis.create');      
+        Route::get('{id}', [DokumentasiController::class, 'show'])->name('dokumentasis.show');      
         Route::post('/', [DokumentasiController::class, 'store'])->name('dokumentasis.store');      
         Route::get('{id}/edit', [DokumentasiController::class, 'edit'])->name('dokumentasis.edit');  
         Route::put('{id}', [DokumentasiController::class, 'update'])->name('dokumentasis.update');  
@@ -175,6 +176,6 @@ Route::middleware('auth')->group(function() {
 Route::get('/dokumentasi/galeri', [DokumentasiController::class, 'show'])->name('dokumentasis.show');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dokumentasi', [DokumentasiController::class, 'index'])->name('dokumentasi.index');
+    Route::get('/dokumentasi', [DokumentasiController::class, 'index'])->name('dokumentasis.index');
 });
 
