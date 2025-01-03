@@ -1,16 +1,15 @@
 <header class="bg-white shadow-md">
-    <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+    <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm"> //Navbar
         <div class="container-fluid px-4">
-            <img src="{{ asset('img/favicon.png') }}" alt="KIND" height="40">
+            <img src="{{ asset('img/favicon.png') }}" alt="KIND" height="40"> /Menampilkan logo website
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-
-                <ul class="navbar-nav me-auto">
+            <div class="collapse navbar-collapse" id="navbarNav"> //Menu navigasi
+                <ul class="navbar-nav me-auto"> 
                     <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Home</a></li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="volunteerDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" id="volunteerDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             For Volunteer
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="volunteerDropdown">
@@ -30,7 +29,7 @@
                 
                 <ul class="navbar-nav">
                     @auth
-                        <li class="nav-item dropdown no-arrow">
+                        <li class="nav-item dropdown no-arrow"> //Menu untuk akun pengguna
                             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="me-2 text-gray-600">{{ Auth::user()->name }}</span>
                                 <figure class="img-profile rounded-circle avatar font-weight-bold mb-0" data-initial="{{ Auth::user()->name[0] }}"></figure>
@@ -44,7 +43,7 @@
                                 </a>
                             </div>
                         </li>
-                    @else
+                    @else // Jika pengguna belum login
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">Login</a>
                         </li>
@@ -58,8 +57,8 @@
     </nav>
 </header>
 
-<!-- Add Logout Modal -->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> //Modal untuk logout
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
