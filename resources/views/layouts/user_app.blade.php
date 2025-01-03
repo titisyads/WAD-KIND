@@ -1,7 +1,7 @@
 @extends('layouts.user')
 
 @section('content')
-    <!-- Banner Section -->
+    <!-- Bannner -->
     <div class="row g-0">
         <div class="col-md-6 text-white d-flex align-items-center justify-content-start ps-4" 
              style="height: 400px; 
@@ -23,15 +23,15 @@
                 <p class="text-muted">Volunteers</p>
             </div>
             <div class="col-md-4">
-                <p class="display-4" style="color: #7DC0F8"">{{ number_format($counts['campaigns']) }}</p>
+                <p class="display-4" style="color: #7DC0F8">{{ number_format($counts['campaigns']) }}</p>
                 <p class="text-muted">Campaigns</p>
             </div>
             <div class="col-md-4">
-                <p class="display-4" style="color: #7DC0F8"">{{ number_format($counts['organizations']) }}</p>
+                <p class="display-4" style="color: #7DC0F8">{{ number_format($counts['organizations']) }}</p>
                 <p class="text-muted">Organizations</p>
             </div>
         </div>
-        <a class="btn btn-lg mt-4" style="background-color: #8ecbf7; color: white" href="{{ route('kegiatan_volunteers.list') }}">Join Us as a Volunteer</a>
+        <a class="btn btn-lg mt-4" style="background-color: #7DC0F8; color: white" href="{{ route('kegiatan_volunteers.list') }}">Join Us as a Volunteer</a>
     </div>
 
     <div class="container py-5">
@@ -102,13 +102,13 @@
         <h3 class="fw-bold text-center mb-4">Explore Projects</h3>
         <div class="position-relative">
             <div id="projectControls" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
-                    @foreach($kegiatanVolunteers->chunk(3) as $index => $chunk)
+                <div class="carousel-inner"> {{-- Carousel untuk menampilkan secara bergulir --}}
+                    @foreach($kegiatanVolunteers->chunk(3) as $index => $chunk) {{-- Loop untuk mengisi carousel dipecah menjadi 3 item untuk setiap slide --}}
                         <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
                             <div class="row g-4">
                                 @foreach($chunk as $kegiatan)
                                     <div class="col-md-4">
-                                        <div class="card border-0 h-100">
+                                        <div class="card border-0 h-100"> {{-- Menampilkan Kegiatan --}}
                                             <img src="{{ asset($kegiatan->banner) }}" alt="{{ $kegiatan->nama_kegiatan }}" 
                                                  class="d-block w-100 rounded shadow">
                                             <div class="card-body px-0">
@@ -122,7 +122,7 @@
                         </div>
                     @endforeach
                 </div>
-                <a class="carousel-control-prev" href="#projectControls" role="button" data-slide="prev">
+                <a class="carousel-control-prev" href="#projectControls" role="button" data-slide="prev"> {{-- Navigasi Untuk Carousel  --}}
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
                 </a>
@@ -134,7 +134,7 @@
         </div>
     </div>
 
-    <div class="container py-5">
+    <div class="container py-5"> {{-- Carousel untuk Organisasi--}}
         <h3 class="fw-bold text-center mb-4">Partnered Organizations</h3>
         <div class="position-relative">
             <div id="organizationControls" class="carousel slide" data-ride="carousel">
