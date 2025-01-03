@@ -1,7 +1,7 @@
 <header class="bg-white shadow-md">
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container-fluid px-4">
-            <a class="navbar-brand text-primary fw-bold" href="#">KIND</a>
+            <img src="{{ asset('img/favicon.png') }}" alt="KIND" height="40">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
