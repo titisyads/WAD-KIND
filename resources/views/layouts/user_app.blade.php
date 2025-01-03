@@ -5,7 +5,7 @@
     <div class="row g-0">
         <div class="col-md-6 text-white d-flex align-items-center justify-content-start ps-4" 
              style="height: 400px; 
-                    background: linear-gradient(rgb(142,203,247, 0.5), rgb(142,203,247, 0.5)), url('{{ asset('img/banner.jpg') }}');
+                    background: linear-gradient(rgb(125,192,248,0.5), rgb(125,192,248,0.5)), url('{{ asset('img/banner.jpg') }}');
                     background-size: cover;">
             <h2 class="display-4 fw-bold">DO SOMETHING GREAT<br>TO HELP OTHERS</h2>
         </div>
@@ -19,15 +19,15 @@
     <div class="container text-center py-5">
         <div class="row">
             <div class="col-md-4">
-                <p class="display-4" style="color: #8ecbf7">{{ number_format($counts['volunteers']) }}</p>
+                <p class="display-4" style="color: #7DC0F8">{{ number_format($counts['volunteers']) }}</p>
                 <p class="text-muted">Volunteers</p>
             </div>
             <div class="col-md-4">
-                <p class="display-4" style="color: #8ecbf7">{{ number_format($counts['campaigns']) }}</p>
+                <p class="display-4" style="color: #7DC0F8"">{{ number_format($counts['campaigns']) }}</p>
                 <p class="text-muted">Campaigns</p>
             </div>
             <div class="col-md-4">
-                <p class="display-4" style="color: #8ecbf7">{{ number_format($counts['organizations']) }}</p>
+                <p class="display-4" style="color: #7DC0F8"">{{ number_format($counts['organizations']) }}</p>
                 <p class="text-muted">Organizations</p>
             </div>
         </div>
@@ -41,7 +41,7 @@
             </div>
             <div class="col-md-6">
                 <h3 class="fw-bold">Small Changes<br>do change the future better.</h3>
-                <p class="text-muted mt-3"><em>Start <span style="color: #8ecbf7" class="fw-bold">with KIND</span></em></p>
+                <p class="text-muted mt-3"><em>Start <span style="color: #7DC0F8" class="fw-bold">with KIND</span></em></p>
                 <p class="mt-3">Every small action has the power to create a brighter future. Join us in making meaningful change, no matter how small.</p>
             </div>
         </div>
