@@ -338,22 +338,31 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <h5>Deskripsi</h5>
-                            <p>{{ $kegiatan->deskripsi }}</p>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    @if($kegiatan->banner)
+                                        <img src="{{ asset($kegiatan->banner) }}" class="img-fluid rounded w-100" style="object-fit: cover; height: 100%;" alt="{{ $kegiatan->nama_kegiatan }}">
+                                    @endif
+                                </div>
+                                <div class="col-md-7">
+                                    <h5>Deskripsi</h5>
+                                    <p>{{ $kegiatan->deskripsi }}</p>
 
-                            <h5>Lokasi dan Waktu</h5>
-                            <p><strong>Lokasi:</strong> {{ $kegiatan->lokasi }}</p>
-                            <p><strong>Tanggal:</strong> {{ \Carbon\Carbon::parse($kegiatan->tanggal)->format('d M Y') }}</p>
+                                    <h5>Lokasi dan Waktu</h5>
+                                    <p><strong>Lokasi:</strong> {{ $kegiatan->lokasi }}</p>
+                                    <p><strong>Tanggal:</strong> {{ \Carbon\Carbon::parse($kegiatan->tanggal)->format('d M Y') }}</p>
 
-                            <h5>Kontak</h5>
-                            <p>{{ $kegiatan->kontak }}</p>
+                                    <h5>Kontak</h5>
+                                    <p>{{ $kegiatan->kontak }}</p>
 
-                            <h5>Biaya</h5>
-                            @if($kegiatan->jenis === 'berbayar')
-                                <p>Rp {{ number_format($kegiatan->harga, 0, ',', '.') }}</p>
-                            @else
-                                <p>Gratis</p>
-                            @endif
+                                    <h5>Biaya</h5>
+                                    @if($kegiatan->jenis === 'berbayar')
+                                        <p>Rp {{ number_format($kegiatan->harga, 0, ',', '.') }}</p>
+                                    @else
+                                        <p>Gratis</p>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
