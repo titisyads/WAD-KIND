@@ -214,4 +214,26 @@ class LembagaController extends Controller
         } 
         return Excel::download(new LembagaExport($lembaga), 'lembagas.xlsx');  
     }  
+
+    public function list(Request $request)
+    {
+        $query = Lembaga::query();
+
+        // Filter by search term (nama_kegiatan)
+        if ($request->filled('search')) {
+            $query->where('nama', 'like', '%' . $request->search . '%');
+        }
+
+        // Filter by category
+        if ($request->filled('kategori')) {
+            $query->where('kategori', $request->kategori);
+        }
+
+        $lembagas = $query->get();
+
+        return view('lembagas.list', [
+            'lembagas' => $lembagas,
+            'title' => 'Lembaga'
+        ]);
+    }
 }

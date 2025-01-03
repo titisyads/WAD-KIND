@@ -22,6 +22,7 @@ use App\Http\Controllers\CheckoutController;
 */
 
 Route::post('midtrans/notification', [CheckoutController::class, 'handleNotification']);
+Route::get('/user/lembaga/', [LembagaController::class, 'list'])->name('lembaga.list');
 
 
 Route::get('/', function () {
@@ -75,6 +76,7 @@ Route::middleware('auth')->group(function() {
     Route::get('/admin/home', [HomeController::class, 'index'])->middleware('role:Admin|Pengurus Lembaga|Pengurus Kegiatan');
 
     Route::resource('basic', BasicController::class);
+    
 
 
     Route::middleware(['role:Admin|Pengurus Lembaga'])->prefix('lembaga')->group(function () {  
