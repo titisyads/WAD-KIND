@@ -134,6 +134,12 @@ Route::middleware('auth')->group(function() {
 
     Route::post('/kegiatan/register', [KegiatanVolunteerController::class, 'register'])->name('kegiatan.register');
 
+    Route::get('/my-activities', function () {
+        $volunteers = \App\Models\Volunteer::where('id_user', auth()->id())
+            ->with(['kegiatan.lembaga'])
+            ->get();
+        return view('volunteers.list', compact('volunteers'));
+    })->name('volunteers.status');
 
 });
 
