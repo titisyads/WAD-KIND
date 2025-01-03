@@ -47,3 +47,14 @@
 
 
 
+
+            <li class="nav-item {{ Nav::isRoute('checkouts.index') }}">
+            <a class="nav-link" href="{{ route('checkouts.index') }}">
+                <i class="fas fa-fw fa-plus"></i>
+                <span>{{ __('Dokumentasi CRUD') }}</span>
+            </a>
+        </li>
+
+
+
+

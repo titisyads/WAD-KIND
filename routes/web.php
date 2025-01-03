@@ -110,6 +110,12 @@ Route::middleware('auth')->group(function() {
         Route::delete('{id}', [DokumentasiController::class, 'destroy'])->name('dokumentasis.destroy');  
     });
 
+    Route::prefix('checkout')->group(function () {
+        Route::get('/', [CheckoutController::class, 'index'])->name('checkouts.index');
+        Route::get('/{kegiatan}', [CheckoutController::class, 'showCheckoutForm'])->name('checkout.index');
+        Route::post('/', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
+    });
+
 
 
 
