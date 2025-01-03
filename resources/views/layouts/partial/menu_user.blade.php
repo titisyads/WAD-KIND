@@ -23,6 +23,7 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="exploreDropdown">
                             <li><a class="dropdown-item" href="{{ route('reviews.list') }}">Reviews</a></li>
+                            <li><a class="dropdown-item" href="{{ route('dokumentasis.show') }}">Dokumentasi</a></li>
                         </ul>
                     </li>
                 </ul>

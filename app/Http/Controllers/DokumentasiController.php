@@ -106,10 +106,37 @@ public function create()
     /**  
      * Display the specified resource.  
      */  
-    public function show(string $id)  
-    {  
-        $dokumentasi = Dokumentasi::with('kegiatan')->findOrFail($id);  
-        return view('dokumentasis.show', compact('dokumentasi'));  
+    public function show()
+    {
+        $query = Dokumentasi::with('kegiatan');
+
+        // Handle search
+        if (request('search')) {
+            $search = request('search');
+            $query->where('judul', 'like', "%{$search}%")
+                  ->orWhereHas('kegiatan', function($q) use ($search) {
+                      $q->where('nama_kegiatan', 'like', "%{$search}%");
+                  });
+        }
+
+        // Handle sorting
+        switch(request('sort')) {
+            case 'latest':
+                $query->latest();
+                break;
+            case 'oldest':
+                $query->oldest();
+                break;
+            case 'kegiatan':
+                $query->join('kegiatan_volunteers', 'dokumentasis.id_kegiatan', '=', 'kegiatan_volunteers.id')
+                      ->orderBy('kegiatan_volunteers.nama_kegiatan');
+                break;
+            default:
+                $query->latest();
+        }
+
+        $dokumentasis = $query->paginate(9);
+        return view('dokumentasis.show', compact('dokumentasis'));
     }  
 
 
