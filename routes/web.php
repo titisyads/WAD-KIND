@@ -126,8 +126,7 @@ Route::middleware('auth')->group(function() {
     Route::middleware(['role:Admin|Pengurus Lembaga|Pengurus Kegiatan'])->prefix('dokumentasi')->group(function () {  
         Route::get('/export', [DokumentasiController::class, 'export'])->name('dokumentasis.export');
         Route::get('/', [DokumentasiController::class, 'index'])->name('dokumentasis.index');  
-        Route::get('/create', [DokumentasiController::class, 'create'])->name('dokumentasis.create');      
-        Route::get('{id}', [DokumentasiController::class, 'show'])->name('dokumentasis.show');      
+        Route::get('/create', [DokumentasiController::class, 'create'])->name('dokumentasis.create');           
         Route::post('/', [DokumentasiController::class, 'store'])->name('dokumentasis.store');      
         Route::get('{id}/edit', [DokumentasiController::class, 'edit'])->name('dokumentasis.edit');  
         Route::put('{id}', [DokumentasiController::class, 'update'])->name('dokumentasis.update');  

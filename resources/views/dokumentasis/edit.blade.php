@@ -49,7 +49,7 @@
 
 
         <button type="submit" class="btn btn-primary">Update</button>  
-        <a href="{{ route('dokumentasi.index') }}" class="btn btn-default">Back to list</a>  
+        <a href="{{ route('dokumentasis.index') }}" class="btn btn-default">Back to list</a>  
       </form>  
     </div>  
   </div>  
