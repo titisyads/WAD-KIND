@@ -1,4 +1,4 @@
-@extends('layouts.app')  
+@extends('layouts.user')
 
 @section('content')  
 <div class="container">  
@@ -7,6 +7,7 @@
             {{ session('error') }}  
         </div>  
     @endif  
+    <br>
     <h1>Checkout Kegiatan: {{ $kegiatan->nama_kegiatan }}</h1>  
     
     <p><strong>Lokasi:</strong> {{ $kegiatan->lokasi }}</p>  
@@ -20,5 +21,6 @@
         <button type="submit" class="btn btn-primary">Checkout</button>  
     </form>  
 </div>
+<br>
 
 @endsection
